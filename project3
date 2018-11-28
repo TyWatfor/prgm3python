@@ -1,0 +1,80 @@
+import datetime
+import time
+class allTicketSold(Exception): pass
+
+class Airplane:
+def __init__(self, date="Jun 1 2005", time="1:30 pm", number_of_seats=0.0, maxTicket=20):
+self.__date = datetime.datetime.strptime(date, '%b %d %Y')
+self.__time = datetime.datetime.strptime(time, "%I:%M %p")
+self.__number_of_seats = number_of_seats
+self.__maxTicket = maxTicket
+
+def __str__(self):
+return str("Airplane({},{},{},{})".format(str(self.__date.strftime('%b %d %Y')), str(self.__time.strftime('%I:%M %p')),
+str(self.__number_of_seats), str(self.__maxTicket) ))
+
+
+@property
+def date(self):
+return self.__date
+
+@date.setter
+def date(self, x):
+self.__date = datetime.datetime.strptime(x, '%b %d %Y')
+
+@property
+def time(self):
+return self.__time
+
+@time.setter
+def time(self, x):
+self.__time = datetime.datetime.strptime(x, "%I:%M %p")
+
+@property
+def number_of_seats(self):
+return self.__number_of_seats
+
+@number_of_seats.setter
+def number_of_seats(self, x):
+self.__number_of_seats = x
+
+@property
+def maxTicket(self):
+return self.__maxTicket
+
+@maxTicket.setter
+def maxTicket(self, x):
+self.__maxTicket = x
+
+def AirplaneFull(self):
+return self.number_of_seats >= self.__maxTicket
+
+def PurchaseTicket(self):
+try:
+if self.AirplaneFull():
+raise allTicketSold()
+except allTicketSold:
+print("All tickets Sold for time {}".format(self.time.strftime('%I:%M %p')))
+else:
+self.number_of_seats += 1
+print("Booked for {} and {} seats:{}".format(str(self.__date.strftime('%b %d %Y')),
+str(self.__time.strftime('%I:%M %p')), str(self.number_of_seats)))
+
+def ReturnTicket(self):
+if self.number_of_seats == 0:
+print("Cant Return Tickets with zero tickets")
+else:
+self.number_of_seats -= 1
+print("Ticket Returned : Avaliable Tickets is {} ".format(str(self.number_of_seats)))
+
+
+AirPlane_list = [Airplane("Dec 6 2005", "7:00 AM",0, 20), Airplane("Dec 6 2005", "2:00 PM", 0, 20)]
+
+for x in AirPlane_list:
+print(str(x))
+
+for x in range(22):
+AirPlane_list[0].PurchaseTicket()
+
+for x in range(5):
+AirPlane_list[0].ReturnTicket()
